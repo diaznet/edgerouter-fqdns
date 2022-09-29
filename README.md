@@ -28,8 +28,8 @@ In a dynamic environment where IP addresses may change often, it could be necess
 
 - Download latest copy of the 2 script files:
 
-    wrapper_fqdns.sh
-    fqdns.py
+		wrapper_fqdns.sh
+		fqdns.py
 
 - Upload the scripts into EdgeRouter: /config/user-data/scripts/
    - Note: this folder is designed to hold users' scripts and does not get wiped during upgrades.
