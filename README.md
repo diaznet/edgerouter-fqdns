@@ -1,4 +1,4 @@
-# EdgeRouter FQDNS
+# EdgeRouter FQDNs
 FQDN script for Ubiquiti EdgeRouter.
 
 # Purpose
@@ -17,7 +17,7 @@ In a dynamic environment where IP addresses may change often, it could be necess
 
 # Caveats
 
-- It is of upmost importance to have a reliable and stable Name Resolution in your environment. Firewall rules created for this script will rely on DNS and faulty Name Resolution might have unwanted consequences. Remember that FQDN might also not be a good idea in several use cases.
+- It is of upmost importance to have a reliable and stable Name Resolution in your environment. Firewall rules created for this script will rely on DNS and faulty Name Resolution might have unwanted consequences. Remember that relying on FQDN to create firewall rules might also not be a good idea in several use cases.
 - Firewall Address Groups names in EdgeRouter OS are limited to 28 charasters maximum. Names will appear truncated, but it will not impact the script's functionalities as it uses the Description field.
 - Currently it is not possible to launch Python scripts from EdgeRouter OS scheduler. Therefore the script is mainly a Python script embedded into a Bash script.
 - It is a scheduled script run, therefore all DNS records might not be up tp date before the next run of the script. I however found that it was in general working well with a scheduled interval of 15 minutes.
@@ -34,6 +34,10 @@ In a dynamic environment where IP addresses may change often, it could be necess
 		set system task-scheduler task update_fqdns executable path /config/user-data/scripts/wrapper_fqdns.sh
 		set system task-scheduler task update_fqdns interval 15m
 
+Nopte that you can run the script manually to check if all is in order:
+
+		ubnt@my_edgerouter:~$ sudo /config/user-data/scripts/wrapper_fqdns.sh
+		ubnt@my_edgerouter:~$
 
 # Usage
 
@@ -46,10 +50,10 @@ For example if we want to create a dynamic object that will resolve ftp.ch.debia
 
     set firewall group address-group Debian_CH_Update_Servers description FQDN-ftp.ch.debian.org
 
-At the next scheduled run of the script, the Firewall Address Group object will be populated with the IP address(es) resolved from the prefixed string in Description field.  
+After manual run or at the next scheduled run of the script, the Firewall Address Group object will be populated with the IP address(es) resolved from the prefixed string in Description field.  
 Example after 1st run of the script:
 
-    ubnt@my_edgerouter:~$ show configuration commands | grep debian
+    ubnt@my_edgerouter:~$ show configuration commands | grep Debian
     set firewall group address-group Debian_CH_Update_Servers address 129.132.53.171
     set firewall group address-group Debian_CH_Update_Servers description FQDN-ftp.ch.debian.org
     ubnt@my_edgerouter:~$ 
@@ -58,7 +62,6 @@ Example after 1st run of the script:
 This object will then be available for you to create a new firewall rule in EdgeRouter OS.
 Example below creates a new Firewall rule 42 in Ruleset "Servers_Lan_In"
 
-Check the [EdgeOS User Guide](https://dl.ubnt.com/guides/edgemax/EdgeOS_UG.pdf) for more information about Firewall Rules in EdgeRouters.
 
     set firewall name Servers_Lan_In rule 42 action accept
     set firewall name Servers_Lan_In rule 42 description 'Debian CH Update Servers'
@@ -68,6 +71,7 @@ Check the [EdgeOS User Guide](https://dl.ubnt.com/guides/edgemax/EdgeOS_UG.pdf) 
     set firewall name Servers_Lan_In rule 42 protocol tcp
     set firewall name Servers_Lan_In rule 42 source group address-group My_Debian_Server
     
+Check the [EdgeOS User Guide](https://dl.ubnt.com/guides/edgemax/EdgeOS_UG.pdf) for more information about Firewall Rules in EdgeRouters.
 
 # Disclaimer
 
@@ -89,3 +93,4 @@ The Python part of the script is compatible with Python 2.7. The embedded versio
 
 # Credits
 Author: Jeremy Diaz
+I used various posts on UI Community forums to create this script.
