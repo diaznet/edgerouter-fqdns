@@ -16,7 +16,6 @@
         -h, --help       show this help message and exit
         --prefix PREFIX  Prefix for Address Group descriptions
         --debug          Enable DEBUG messages
-        ubnt@edgeos $ 
 
     Can be ran independentely in the cli or via the wrapper.
     Example from CLI:
