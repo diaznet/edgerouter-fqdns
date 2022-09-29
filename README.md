@@ -34,7 +34,7 @@ In a dynamic environment where IP addresses may change often, it could be necess
 		set system task-scheduler task update_fqdns executable path /config/user-data/scripts/wrapper_fqdns.sh
 		set system task-scheduler task update_fqdns interval 15m
 
-Nopte that you can run the script manually to check if all is in order:
+Note that you can run the script manually to check if all is in order:
 
 		ubnt@my_edgerouter:~$ sudo /config/user-data/scripts/wrapper_fqdns.sh
 		ubnt@my_edgerouter:~$
