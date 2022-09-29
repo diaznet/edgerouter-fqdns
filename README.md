@@ -17,18 +17,23 @@ In a dynamic environment where IP addresses may change often, it could be necess
 
 # Caveats
 
-- It is of upmost importance to have a reliable and stable Name Resolution in your environment. Firewall rules created for this script will rely on DNS and faulty Name Resolution might have unwanted consequences. Remember that relying on FQDN to create firewall rules might also not be a good idea in several use cases.
-- Firewall Address Groups names in EdgeRouter OS are limited to 28 charasters maximum. Names will appear truncated, but it will not impact the script's functionalities as it uses the Description field.
-- Currently it is not possible to launch Python scripts from EdgeRouter OS scheduler. Therefore the script is mainly a Python script embedded into a Bash script.
+- It is of upmost importance to have a reliable and stable Name Resolution in your environment. Firewall rules created for this script will rely on DNS and faulty Name Resolution might have unwanted consequences.
+- Remember that relying on FQDN to create firewall rules might also not be a good idea in several use and edge cases.
+- Firewall Address Groups names in EdgeRouter OS are limited to 31 characters maximum. Names will appear truncated, but it will not impact the script's functionalities as it uses the Description field.
+- Currently it is not possible to launch Python scripts from EdgeRouter OS scheduler. Therefore the tool is mainly a Bash script starting a Python script.
 - It is a scheduled script run, therefore all DNS records might not be up tp date before the next run of the script. I however found that it was in general working well with a scheduled interval of 15 minutes.
 - At every run it will commit then save new configuration lines. The UI and the console will not be available at this moment (commit lock).
 
 # Installation
 
-- Download latest copy of the script file wrapper_fqdns.sh
-- Upload the script into EdgeRouter: /config/user-data/scripts/
+- Download latest copy of the 2 script files:
+
+    wrapper_fqdns.sh
+    fqdns.py
+
+- Upload the scripts into EdgeRouter: /config/user-data/scripts/
    - Note: this folder is designed to hold users' scripts and does not get wiped during upgrades.
-   - Note: you might need to chmod +x the script file after upload  
+   - Note: you might need to chmod +x the 2 script files after upload  
 - Choose a desired interval and enable the script to run. Example with 15 minutes interval:
 
 		set system task-scheduler task update_fqdns executable path /config/user-data/scripts/wrapper_fqdns.sh
@@ -89,7 +94,7 @@ The Python part of the script is compatible with Python 2.7. The embedded versio
 # Todo's
 
 - IPv6 support
-- Custom prefix support (the Python script does, the Bash wrapper doesn't).
+- Custom prefix support in Bash wrapper
 
 # Credits
 Author: Jeremy Diaz
