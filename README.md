@@ -98,4 +98,5 @@ The Python part of the script is compatible with Python 2.7. The embedded versio
 
 # Credits
 Author: Jeremy Diaz
+
 I used various posts on UI Community forums to create this script.
