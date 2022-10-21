@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    fqdns.py - v0.2
+    fqdns.py - v0.2.1
 
         usage: fqdns.py [-h] [--prefix PREFIX] in-desc in-addr
 
