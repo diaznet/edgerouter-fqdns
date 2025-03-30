@@ -12,7 +12,7 @@ In a dynamic environment where IP addresses may change often, it could be necess
 # Features
 
  - Adds possibility to create Firewall Address Groups that will be populated from a predefined FQDN.
- - Uses the Description field of Firewall Address Group objects in EdgeOS.
+ - Uses the Name and Description fields of Firewall Address Group objects in EdgeOS.
  - Adds/remove/Updates IP addresses at every run
 
 # Caveats
@@ -47,20 +47,20 @@ Note that you can run the script manually to check if all is in order:
 # Usage
 
 You can add new Firewall Address Group objects in the GUI or in the CLI.
-Simply make sure that all objects have a description with the following string:
+Simply make sure that all objects have a name and a description prefixed with the following string:
 
     FQDN-<fully.qualified.domain.name>
 
 For example if we want to create a dynamic object that will resolve ftp.ch.debian.org for you, enter the following line in the CLI:
 
-    set firewall group address-group Debian_CH_Update_Servers description FQDN-ftp.ch.debian.org
+    set firewall group address-group FQDN-Debian_CH_Update_Servers description FQDN-ftp.ch.debian.org
 
 After manual run or at the next scheduled run of the script, the Firewall Address Group object will be populated with the IP address(es) resolved from the prefixed string in Description field.  
 Example after 1st run of the script:
 
     ubnt@my_edgerouter:~$ show configuration commands | grep Debian
-    set firewall group address-group Debian_CH_Update_Servers address 129.132.53.171
-    set firewall group address-group Debian_CH_Update_Servers description FQDN-ftp.ch.debian.org
+    set firewall group address-group FQDN-Debian_CH_Update_Servers address 129.132.53.171
+    set firewall group address-group FQDN-Debian_CH_Update_Servers description FQDN-ftp.ch.debian.org
     ubnt@my_edgerouter:~$ 
 
 
@@ -70,7 +70,7 @@ Example below creates a new Firewall rule 42 in Ruleset "Servers_Lan_In"
 
     set firewall name Servers_Lan_In rule 42 action accept
     set firewall name Servers_Lan_In rule 42 description 'Debian CH Update Servers'
-    set firewall name Servers_Lan_In rule 42 destination group address-group Debian_CH_Update_Servers
+    set firewall name Servers_Lan_In rule 42 destination group address-group FQDN-Debian_CH_Update_Servers
     set firewall name Servers_Lan_In rule 42 destination port 443
     set firewall name Servers_Lan_In rule 42 log enable
     set firewall name Servers_Lan_In rule 42 protocol tcp
@@ -88,13 +88,14 @@ The script has been tested and ran on my home environment for months.
 
 # Compatibility
 
-This script is currently working with latest EdgeRouter OS v2.0.9-hotfix.2  
+This script is currently working with latest EdgeRouter OS v2.0.9-hotfix.7
 The Python part of the script is compatible with Python 2.7. The embedded version of Python in EdgeOS is 2.7.13 at the time of writing this README.
 
 # Todo's
 
 - IPv6 support
 - Custom prefix support in Bash wrapper
+- Simulation mode: simulate what the output commands would be in the console
 
 # Credits
 Author: Jeremy Diaz
